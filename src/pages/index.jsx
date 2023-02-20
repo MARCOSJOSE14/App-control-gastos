@@ -1,4 +1,4 @@
-import Form from '@/components/Form'
+import Categoria from '@/components/Categoria'
 import Head from 'next/head'
 
 export default function Home () {
@@ -11,8 +11,7 @@ export default function Home () {
       </Head>
 
       <div className='container mx-auto'>
-        <Form/>
-
+        <Categoria/>
       </div>
     </>
   )
