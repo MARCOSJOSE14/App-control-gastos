@@ -36,23 +36,19 @@ const Prueba = () => {
       model: 'B'
     }
   ]
-  const contador1 = 0
-  let contador2 = 0
+
+  let contador = 0
 
   const guardar = () => {
     const res = datosgasto.reduce(function (total, current) {
-      const fecha2 = shortDate(current.detDate).toString()
-      // console.log(fecha2)
+      const fecha = shortDate(current.detDate).toString()
 
-      if (total[fecha2]) contador2++
+      if (total[fecha]) contador++
       else {
-        contador2 = 0
-        total[fecha2] = { fecha: fecha2 }
-        // contador1++
+        contador = 0
+        total[fecha] = { dia: fecha }
       }
-      total[fecha2][contador2] = current
-
-      // console.log(total[fecha2])
+      total[fecha][contador] = current
 
       return total
     }, {})
