@@ -1,9 +1,12 @@
 import { contexto } from '@/contexts/Cuenta'
 import axios from 'axios'
 import Link from 'next/link'
+import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
 
 export default function Form ({ abrir, cerrar }) {
+  const { push } = useRouter()
+
   const { contCat, camNue } = contexto()
 
   const [formulario, setFormulario] = useState({
@@ -24,6 +27,7 @@ export default function Form ({ abrir, cerrar }) {
     await axios.post('/api/nuevo', formulario)
     cerrar()
     camNue()
+    push('/cuenta/categoria')
   }
 
   const tipoNuevo = (e) => {
