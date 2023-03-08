@@ -16,6 +16,7 @@ const Datagrid = ({ numero }) => {
   const [fTipo, setFTipo] = useState('day')
 
   const datainfo = apiSure(`cuenta/${numero}/datos`)
+  console.log(datainfo)
 
   const cambioFecha = (fechaBase) => {
     switch (fTipo) {
@@ -177,6 +178,12 @@ const Datagrid = ({ numero }) => {
   return (
     <>
       <div className='mt-14'>
+
+        <div className='flex justify-evenly'>
+          <button>GASTOS</button>
+          <button>INGRESOS</button>
+        </div>
+
         <div className='grid grid-cols-5  py-2 my-3'>
           <button id='day' onClick={btnFiltro} className='text-gray-600'>Día</button>
           <button id='week' onClick={btnFiltro} className='text-gray-600'>Semana</button>
@@ -217,7 +224,6 @@ const Datagrid = ({ numero }) => {
                 {(diario(isoDate(ffecha.i), isoDate(ffecha.f), datainfo)).map(({ categoria, suma, porcentaje, fechas }, index) => (
                   <Link href={'#detalle'} key={index} className='bg-white rounded-lg mx-5 border px-3 py-2 flex justify-between'>
                     <h1>{categoria}</h1>
-
                     <div className='flex gap-5'>
                       <h1>{porcentaje} %</h1>
                       <h1>{pen(suma) }</h1>

@@ -17,30 +17,31 @@ export const diario = (fechai, fechaf, arreglo) => {
 
   // Prueba de filtro por fecha
   let total = 0
-  const resultado = arreglo.reduce((acumula, { detId, detDesc, detDate, detMonto, detTipo, catDesc }) => {
-    if (isoDate(detDate) >= fechai && isoDate(detDate) <= fechaf) {
-      total = total + Number(detMonto)
-      if (acumula.at(-1)?.categoria === catDesc) {
-        if (acumula.at(-1)?.fechas.at(-1).titulo === detDate) {
+  const resultado = arreglo.reduce((acumula, { traId, traDes, traDate, traMonto, traTipo, catDes, catImg }) => {
+    if (isoDate(traDate) >= fechai && isoDate(traDate) <= fechaf) {
+      total = total + Number(traMonto)
+      if (acumula.at(-1)?.categoria === catDes) {
+        if (acumula.at(-1)?.fechas.at(-1).titulo === traDate) {
           acumula.at(-1)?.fechas.at(-1).datosF.push(
-            { detId, detDesc, detMonto, detTipo, detDate }
+            { traId, traDes, traMonto, traTipo, traDate }
           )
         } else {
           acumula.at(-1)?.fechas.push(
             {
-              titulo: detDate,
-              datosF: [{ detId, detDesc, detMonto, detTipo, detDate }]
+              titulo: traDate,
+              datosF: [{ traId, traDes, traMonto, traTipo, traDate }]
             }
           )
         }
-        acumula.at(-1).suma = acumula?.at(-1).suma + (detTipo === 'ingreso' ? (Number(detMonto)) : (Number(detMonto) * -1))
+        acumula.at(-1).suma = acumula?.at(-1).suma + (traTipo === 'ingreso' ? (Number(traMonto)) : (Number(traMonto) * -1))
       } else {
         acumula.push({
-          categoria: catDesc,
-          suma: (detTipo === 'ingreso' ? (Number(detMonto)) : (Number(detMonto) * -1)),
+          categoria: catDes,
+          catImg,
+          suma: (traTipo === 'ingreso' ? (Number(traMonto)) : (Number(traMonto) * -1)),
           fechas: [{
-            titulo: detDate,
-            datosF: [{ detId, detDesc, detMonto, detTipo, detDate }]
+            titulo: traDate,
+            datosF: [{ traId, traDes, traMonto, traTipo, traDate }]
           }]
         })
       }
