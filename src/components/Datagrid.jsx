@@ -35,35 +35,35 @@ const Datagrid = () => {
   if (!datosgasto || catId === 0) return <h1>Cargando</h1>
   return (
     <>
-      <Toast/>
+      <Toast />
       <div className='px-5 flex flex-col justify-center py-16'>
 
         <div className='rounded-xl bg-white py-3 '>
-        {datosgasto.map(({ afecha, bmonto, datosE }, index, datosgasto) => (
-          <div key={index} className=' px-3'>
-            <div className='flex justify-between my-3'>
-              <p className='font-medium'>
-                {espeDate(afecha)}
-              </p>
-              <p className='font-bold text-gray-500/70'>
-                {pen(bmonto)}
-              </p>
+          {datosgasto.map(({ afecha, bmonto, datosE }, index, datosgasto) => (
+            <div key={index} className=' px-3'>
+              <div className='flex justify-between my-3'>
+                <p className='font-medium'>
+                  {espeDate(afecha)}
+                </p>
+                <p className='font-bold text-gray-500/70'>
+                  {pen(bmonto)}
+                </p>
+              </div>
+              <div className=''>
+                {
+                  datosE.map(({ detId, detDesc, detMonto, detTipo }) => (
+                    <div key={detId} className='flex justify-between my-2'>
+                      <p className='text-gray-500'>{detDesc}</p>
+                      <p className={('font-bold ').concat(detTipo === 'ingreso' ? 'text-[#18b272]' : 'text-[#f15767] ')}>
+                        {detTipo === 'ingreso' && ('+')}{pen(detTipo === 'ingreso' ? (Number(detMonto)) : (Number(detMonto) * -1))}
+                      </p>
+                    </div>
+                  ))
+                }
+              </div>
+              {(datosgasto.length - 1) !== index && (<div className='bg-gray-300/20 h-0.5 my-2'></div>)}
             </div>
-            <div className=''>
-              {
-                datosE.map(({ detId, detDesc, detMonto, detTipo }) => (
-                  <div key={detId} className='flex justify-between my-2'>
-                    <p className='text-gray-500'>{detDesc}</p>
-                    <p className={('font-bold ').concat(detTipo === 'ingreso' ? 'text-[#18b272]' : 'text-[#f15767] ')}>
-                      {detTipo === 'ingreso' && ('+')}{pen(detTipo === 'ingreso' ? (Number(detMonto)) : (Number(detMonto) * -1))}
-                    </p>
-                  </div>
-                ))
-              }
-            </div>
-            {(datosgasto.length - 1) !== index && (<div className='bg-gray-300/20 h-0.5 my-2'></div>)}
-          </div>
-        ))}
+          ))}
         </div>
       </div>
     </>
