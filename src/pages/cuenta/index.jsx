@@ -7,10 +7,10 @@ import { useRouter } from 'next/router'
 export default function cuenta () {
   const { push } = useRouter()
 
-  const { ctxCamCue } = contexto()
+  const { ctxUsuario, ctxCamCue } = contexto()
 
-  const datosCue = apiSure('cuenta/lista')
-
+  const datosCue = apiSure(`cuenta/lista/?usuId=${ctxUsuario.usuId}`)
+  console.log(datosCue)
   const enviocuenta = (cueId) => {
     ctxCamCue(cueId)
     push(`/cuenta/${cueId}`)
@@ -23,7 +23,7 @@ export default function cuenta () {
       </h1>
 
       <div className='container mx-auto'>
-        <div className="p-3 mt-10">
+        <div className="p-3 mt-14 flex flex-col gap-3">
 
           {(!datosCue)
             ? (
@@ -38,9 +38,9 @@ export default function cuenta () {
                 Hey!, Agrega una cuenta Bro
               </p>
                   )
-                : (datosCue.map(({ cueId, cueDes, cueDate }) => (
+                : (datosCue.map(({ cueId, cueDes }) => (
             <button onClick={() => enviocuenta(cueId)} key={cueId}>
-              <div className='rounded-lg text-lg font-semibold py-2 border px-3 flex justify-between'>
+              <div className='shadow rounded-lg text-lg font-semibold py-2 border px-3 flex justify-between'>
                 <p>{cueDes}</p>
               </div>
             </button>
