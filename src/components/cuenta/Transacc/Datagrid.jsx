@@ -52,7 +52,7 @@ const Datagrid = ({ numero, ffecha, esTraTipo }) => {
         <button className='fixed top-0 z-50 right-0 mt-2 mr-2'>Descargar</button>
       </PDFDownloadLink>
       <ModalTraDetalle estado = {modalEstado} closeModal = {fnCerrarModal} datos = {datosModal} />
-      <div className='mt-52 pt-6 overflow-y-auto h-full print:hidden'>
+      <div className='mt-52 pt-6 overflow-y-auto h-full bg-gr'>
 
         {(datainfo.length === 0
           ? (
