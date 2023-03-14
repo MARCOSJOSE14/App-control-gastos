@@ -11,7 +11,7 @@ export default async function handler (req, res) {
     if (resp) {
       const token = sign(
         {
-          exp: Math.floor(Date.now() / 1000) + 60 * 60 * 24 * 30,
+          exp: Math.floor(Date.now() / 1000) + 60 * 60 * 24,
           resp
         },
         'Secreto'
@@ -21,7 +21,7 @@ export default async function handler (req, res) {
         httpOnly: true,
         secure: process.env.NODE_ENV === 'production',
         sameSite: 'strict',
-        maxAge: 1000 * 60 * 60 * 24 * 30,
+        maxAge: 60 * 60 * 24,
         path: '/'
       })
 

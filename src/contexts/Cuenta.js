@@ -5,12 +5,12 @@ const MyContext = createContext()
 export const contexto = () => useContext(MyContext)
 
 export function MyContextProvider ({ children }) {
-  const [ctxTostada, setCtxTostada] = useState({ a: false, b: 0 })
+  const [ctxTostada, setCtxTostada] = useState({ a: false, b: 0, c: '' })
   const [ctxMensaje, setCtxMensaje] = useState({ a: false, b: 0, c: () => (console.log('agrega funcion')) })
   const [ctxCuenta, setCtxCuenta] = useState()
   const [ctxUsuario, setCtxUsuario] = useState()
 
-  const ctxCamTos = (datoa, datob) => setCtxTostada({ a: datoa, b: datob })
+  const ctxCamTos = (datoa = false, datob = 0, datoc = '') => setCtxTostada({ a: datoa, b: datob, c: datoc })
   const ctxCamMen = (datoa, datob, datoc) => setCtxMensaje({ a: datoa, b: datob, c: datoc })
   const ctxCamCue = (dato) => setCtxCuenta(dato)
   const ctxCamUsu = (dato) => setCtxUsuario(dato)

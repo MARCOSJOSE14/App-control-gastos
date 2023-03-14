@@ -1,4 +1,4 @@
-const Toast = (activo, valor) => {
+const Toast = (activo, valor, info) => {
   if (activo) {
     switch (valor) {
       case 1:
@@ -10,6 +10,7 @@ const Toast = (activo, valor) => {
           </h1>
         </div>
         )
+
       case 2:
         return (
         <div className="flex justify-center text-green-600 fill-green-600">
@@ -19,6 +20,7 @@ const Toast = (activo, valor) => {
           </h1>
         </div>
         )
+
       case 3:
         return (
         <div className="flex justify-center text-red-600 fill-red-600">
@@ -28,11 +30,22 @@ const Toast = (activo, valor) => {
           </h1>
         </div>
         )
+
       case 4:
+        return (
+          <div className="flex justify-center text-orange-600 fill-orange-600">
+            <h1 className="flex gap-3 bg-white fixed rounded border shadow py-2 px-3 top-0 mt-3 z-50">
+              <svg clipRule="evenodd" fillRule="evenodd" strokeLinejoin="round" strokeMiterlimit="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="m12.002 21.534c5.518 0 9.998-4.48 9.998-9.998s-4.48-9.997-9.998-9.997c-5.517 0-9.997 4.479-9.997 9.997s4.48 9.998 9.997 9.998zm0-1.5c-4.69 0-8.497-3.808-8.497-8.498s3.807-8.497 8.497-8.497 8.498 3.807 8.498 8.497-3.808 8.498-8.498 8.498zm0-6.5c-.414 0-.75-.336-.75-.75v-5.5c0-.414.336-.75.75-.75s.75.336.75.75v5.5c0 .414-.336.75-.75.75zm-.002 3c.552 0 1-.448 1-1s-.448-1-1-1-1 .448-1 1 .448 1 1 1z" fillRule="nonzero"/></svg>
+              Aviso
+            </h1>
+          </div>
+        )
+
+      case 5:
         return (
         <div className="flex justify-center">
           <h1 className="flex gap-3 bg-white fixed rounded border shadow py-2 px-3 top-0 mt-3 z-50">
-            Primero debe crear una Cuenta
+            {info}
           </h1>
         </div>
         )
