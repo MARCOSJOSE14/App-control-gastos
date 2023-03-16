@@ -32,7 +32,7 @@ const Nav = ({ children }) => {
   const { push } = useRouter()
 
   const graficof = () => {
-    if (ctxCuenta.length === 0) {
+    if ((!ctxCuenta) || (ctxCuenta.length === 0)) {
       ctxCamTos(true, 5, 'Agrega una Cuenta')
       setTimeout(() => ctxCamTos(false, 0), 2000)
       push('/cuenta')
@@ -42,7 +42,7 @@ const Nav = ({ children }) => {
   }
 
   const transacf = () => {
-    if (ctxCuenta.length === 0) {
+    if ((!ctxCuenta) || (ctxCuenta.length === 0)) {
       ctxCamTos(true, 5, 'Agrega una Cuenta')
       setTimeout(() => ctxCamTos(false, 0), 2000)
       push('/cuenta')
@@ -50,12 +50,12 @@ const Nav = ({ children }) => {
       push(`/cuenta/${ctxCuenta}`)
     }
   }
-  if (!ctxUsuario || !ctxCuenta) return Toast(true, 1)
+  if (!ctxUsuario) return Toast(true, 1)
 
   return (
     <>
 <div className='container mx-auto '>
-  <div className='mb-16 '>
+  <div className='mb-12  '>
     {children}
   </div>
   <div className="container mx-auto z-40 text-xs fixed grid grid-cols-4 w-full border-t bottom-0 bg-white print:hidden">

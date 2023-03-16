@@ -17,7 +17,7 @@ const styles = StyleSheet.create({
   },
   subtitle: {
     fontSize: '16pt',
-    marginVertical: '5pt',
+    marginVertical: '8pt',
     fontFamily: 'Helvetica-Bold'
   },
   center: {
@@ -42,9 +42,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     paddingRight: 10
   },
-  category: {
-    fontWeight: 'bold'
-  },
   right: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -53,8 +50,7 @@ const styles = StyleSheet.create({
   date: {
     borderBottomWidth: 1,
     marginVertical: 5,
-    fontWeight: 'bold',
-    color: 'blue'
+    fontFamily: 'Times-Italic'
   },
   transaction: {
     flexDirection: 'row',
@@ -159,71 +155,73 @@ const Exportar = ({ fecha, data }) => {
     </Page>
 
     <Page style={styles.page}>
-    <View>
+      <View>
         <Text style={styles.subtitle}>Detalles</Text>
       </View>
 
-      <View style={styles.container}>
-        <Text style={styles.title2}>Ingresos:</Text>
-        <Text style={styles.content}>{pen(total.ingreso)}</Text>
-      </View>
+      <View>
+        <View style={styles.resDtgTitulo}>
+          <Text>Ingresos:</Text>
 
-      {(!(resultado.ingreso))
-        ? <Text style={styles.center}>No hay ingresos</Text>
-        : (
-    <View style={styles.container2}>
-      <View style={styles.grid}>
-        {(resultado.ingreso).map(({ catDes, sumCat, traDate, catColor }, index) => (
-          <View key={index} style={styles.row}>
-            <View style={styles.left}>
-              <Text style={[styles.category, { color: catColor }]}>{catDes}</Text>
-            </View>
-            <View style={styles.right}>
-              <Text>{pen(sumCat)}</Text>
-            </View>
-            {traDate.map(({ fecha, traDetalles }) => (
-              <View key={fecha}>
-                <Text style={styles.date}>{espeDate(fecha)}</Text>
-                {traDetalles.map(({ traDes, traId, traMonto }) => (
-                  <View key={traId} style={styles.transaction}>
-                    <Text>{traDes}</Text>
-                    <Text>{pen(traMonto)}</Text>
-                  </View>
-                ))}
+          <Text>{pen(total.ingreso)}</Text>
+        </View>
+
+        {(!(resultado.ingreso))
+          ? <Text style={styles.center}>No hay ingresos</Text>
+          : (
+        <View style={styles.resDatagrid}>
+          {(resultado.ingreso).map(({ catDes, sumCat, traDate, catColor }, index) => (
+            <View key={index} style={{ display: 'flex', flexDirection: 'column', alignItems: 'stretch', marginVertical: 10 }}>
+              <View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', fontFamily: 'Helvetica-Bold', fontSize: '12pt' }}>
+                <Text style={{ color: catColor }}>Total {catDes}</Text>
+
+                <Text>{pen(sumCat)}</Text>
               </View>
-            ))}
-          </View>
-        ))}
-      </View>
+              {traDate.map(({ fecha, traDetalles }) => (
+                <View key={fecha} style={{ marginVertical: 5, marginHorizontal: 8 }}>
+                  <Text style={styles.date}>{espeDate(fecha)}</Text>
+                  {traDetalles.map(({ traDes, traId, traMonto }) => (
+                    <View key={traId} style={styles.transaction}>
+                      <Text>{traDes}</Text>
+                      <Text>{(Number(traMonto)).toFixed(2)}</Text>
+                    </View>
+                  ))}
+                </View>
+              ))}
+            </View>
+          ))}
+        </View>
+            )
+          }
     </View>
-          )
-}
+    </Page>
 
-      <View style={styles.container}>
-        <Text style={styles.title2}>Gastos:</Text>
-        <Text style={styles.content}>{pen(total.gasto)}</Text>
+    <Page style={styles.page}>
+    <View>
+      <View style={styles.resDtgTitulo}>
+        <Text>Gastos:</Text>
+
+        <Text>{pen(total.ingreso)}</Text>
       </View>
 
       {(!(resultado.gasto))
-        ? <Text style={styles.center}>No hay gastos</Text>
+        ? <Text style={styles.center}>No hay Gastos</Text>
         : (
-    <View style={styles.container2}>
-      <View style={styles.grid}>
+      <View style={styles.resDatagrid}>
         {(resultado.gasto).map(({ catDes, sumCat, traDate, catColor }, index) => (
-          <View key={index} style={styles.row}>
-            <View style={styles.left}>
-              <Text style={[styles.category, { color: catColor }]}>{catDes}</Text>
-            </View>
-            <View style={styles.right}>
+          <View key={index} style={{ display: 'flex', flexDirection: 'column', alignItems: 'stretch', marginVertical: 10 }}>
+            <View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', fontFamily: 'Helvetica-Bold', fontSize: '12pt' }}>
+              <Text style={{ color: catColor }}>Total {catDes}</Text>
+
               <Text>{pen(sumCat)}</Text>
             </View>
             {traDate.map(({ fecha, traDetalles }) => (
-              <View key={fecha}>
+              <View key={fecha} style={{ marginVertical: 5, marginHorizontal: 5 }}>
                 <Text style={styles.date}>{espeDate(fecha)}</Text>
                 {traDetalles.map(({ traDes, traId, traMonto }) => (
                   <View key={traId} style={styles.transaction}>
                     <Text>{traDes}</Text>
-                    <Text>{pen(traMonto)}</Text>
+                    <Text>{(Number(traMonto)).toFixed(2)}</Text>
                   </View>
                 ))}
               </View>
@@ -231,11 +229,11 @@ const Exportar = ({ fecha, data }) => {
           </View>
         ))}
       </View>
-    </View>
           )
-}
+        }
+      </View>
+      </Page>
 
-    </Page>
   </Document>
 
   </>

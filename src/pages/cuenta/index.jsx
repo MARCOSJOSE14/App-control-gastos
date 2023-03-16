@@ -1,6 +1,7 @@
 import CueUpdate from '@/components/cuenta/CueUpdate'
 import Layout from '@/components/plantiila/Layout'
 import Nav from '@/components/plantiila/Nav'
+import TituloNav from '@/components/plantiila/TituloNav'
 import { contexto } from '@/contexts/Cuenta'
 import Toast from '@/hooks/Toast'
 import axios from 'axios'
@@ -68,12 +69,12 @@ export default function cuenta () {
     esModal = {estModalCat}
     dataModa = {esEditCue}
     />
-      <h1 className='container mx-auto z-10 fixed w-full flex top-0 justify-center py-2 border-b text-2xl font-bold self-center'>
+      <TituloNav>
         Cuentas
-      </h1>
+      </TituloNav>
 
       <div className='container mx-auto'>
-        <div className="p-3 mt-14 flex flex-col gap-3">
+        <div className="p-3  flex flex-col gap-3">
 
           {(!datosCue)
             ? (
@@ -89,7 +90,7 @@ export default function cuenta () {
               </p>
                   )
                 : (datosCue.map(({ cueId, cueDes }) => (
-            <div key={cueId} className='flex justify-between gap-4 shadow rounded-lg border items-center px-3 py-2 '>
+            <div key={cueId} className='flex justify-between gap-4 shadow rounded-lg border items-center px-3 py-2 bg-white'>
               <button onClick={() => enviocuenta(cueId)}>
                 <div className=' text-lg font-semibold  flex items-center gap-3 grow'>
                 <svg enableBackground="new 0 0 50 50" height="30px" id="Layer_1" version="1.1" viewBox="0 0 50 50" width="30px" xmlSpace="preserve" xmlns="http://www.w3.org/2000/svg" >

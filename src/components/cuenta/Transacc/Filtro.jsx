@@ -174,45 +174,46 @@ const Filtro = ({ numero }) => {
   }
   return (
     <>
-        <div className='fixed pt-16 top-0 container mx-auto bg-white border-b shadow print:hidden'>
-          <div className='flex justify-evenly uppercase font-bold text-[#324c5b] text-center'>
-            <button onClick={fnCamTipo} name='gasto' className={(esTraTipo === 'gasto' ? 'underline' : 'no-underline')}>Gastos</button>
-            <button onClick={fnCamTipo} name='ingreso' className={(esTraTipo === 'ingreso' ? 'underline' : 'no-underline')}>Ingresos</button>
-          </div>
+        <div className='w-full h-40'/>
+        <div className='fixed pt-12 top-0 container mx-auto  bg-gray-200'>
+          <div className='rounded bg-white shadow border m-2'>
+            <div className='flex justify-evenly uppercase font-bold text-[#324c5b] text-center my-1 border-b py-2'>
+              <button onClick={fnCamTipo} name='gasto' className={(esTraTipo === 'gasto' ? 'underline text-red-600' : 'no-underline')}>Gastos</button>
+              <button onClick={fnCamTipo} name='ingreso' className={(esTraTipo === 'ingreso' ? 'underline text-green-600' : 'no-underline')}>Ingresos</button>
+            </div>
 
-          <div className='grid grid-cols-5  py-2 my-3'>
-            <button id='day' onClick={btnFiltro} className={(fTipo === 'day') ? 'underline font-medium' : 'text-gray-600'}>Día</button>
-            <button id='week' onClick={btnFiltro} className={(fTipo === 'week') ? 'underline font-medium' : 'text-gray-600'}>Semana</button>
-            <button id='month' onClick={btnFiltro} className={(fTipo === 'month') ? 'underline font-medium' : 'text-gray-600'}>Mes</button>
-            <button id='year' onClick={btnFiltro} className={(fTipo === 'year') ? 'underline font-medium' : 'text-gray-600'}>Año</button>
-            <button id='perso' onClick={btnFiltro} className={(fTipo === 'perso') ? 'underline font-medium' : 'text-gray-600'}>Descargar</button>
-          </div>
+            <div className=''>
+              <div className='grid grid-cols-4  py-2'>
+                <button id='day' onClick={btnFiltro} className={(fTipo === 'day') ? 'underline font-medium' : 'text-gray-600'}>Día</button>
+                <button id='week' onClick={btnFiltro} className={(fTipo === 'week') ? 'underline font-medium' : 'text-gray-600'}>Semana</button>
+                <button id='month' onClick={btnFiltro} className={(fTipo === 'month') ? 'underline font-medium' : 'text-gray-600'}>Mes</button>
+                <button id='year' onClick={btnFiltro} className={(fTipo === 'year') ? 'underline font-medium' : 'text-gray-600'}>Año</button>
+              </div>
 
-          <div className='flex justify-between items-center px-5 py-3 my-3'>
-          <button onClick={atrasF}>
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="w-5 h-5">
-              <path fillRule="evenodd" d="M12.79 5.23a.75.75 0 01-.02 1.06L8.832 10l3.938 3.71a.75.75 0 11-1.04 1.08l-4.5-4.25a.75.75 0 010-1.08l4.5-4.25a.75.75 0 011.06.02z" clipRule="evenodd" />
-            </svg>
-          </button>
+              <div className='flex justify-between items-center px-5 py-2'>
+              <button onClick={atrasF}>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="w-5 h-5">
+                  <path fillRule="evenodd" d="M12.79 5.23a.75.75 0 01-.02 1.06L8.832 10l3.938 3.71a.75.75 0 11-1.04 1.08l-4.5-4.25a.75.75 0 010-1.08l4.5-4.25a.75.75 0 011.06.02z" clipRule="evenodd" />
+                </svg>
+              </button>
 
-          <p className='flex justify-center  font-medium text-blue-800'>
-            {
-              mostrarF()
-            }
-          </p>
+              <p className='flex justify-center  font-medium text-blue-800'>
+                {
+                  mostrarF()
+                }
+              </p>
 
-          <button onClick={adelanteF}>
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="w-5 h-5">
-              <path fillRule="evenodd" d="M7.21 14.77a.75.75 0 01.02-1.06L11.168 10 7.23 6.29a.75.75 0 111.04-1.08l4.5 4.25a.75.75 0 010 1.08l-4.5 4.25a.75.75 0 01-1.06-.02z" clipRule="evenodd" />
-            </svg>
-          </button>
+              <button onClick={adelanteF}>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="w-5 h-5">
+                  <path fillRule="evenodd" d="M7.21 14.77a.75.75 0 01.02-1.06L11.168 10 7.23 6.29a.75.75 0 111.04-1.08l4.5 4.25a.75.75 0 010 1.08l-4.5 4.25a.75.75 0 01-1.06-.02z" clipRule="evenodd" />
+                </svg>
+              </button>
 
+              </div>
+            </div>
           </div>
         </div>
 
-        <div className=' hidden print:block'>
-          <h1 className='uppercase flex justify-center font-bold text-2xl my-3'>{mostrarF()}</h1>
-        </div>
         <Datagrid numero={numero} ffecha= {ffecha} esTraTipo= {esTraTipo}/>
 
     </>
