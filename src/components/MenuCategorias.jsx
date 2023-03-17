@@ -35,7 +35,7 @@ const MenuCategorias = () => {
       }
       <h2>Suma Total</h2>
       <p>{categoria[2][0].SumaIngresos}</p>
-
+      {console.log(categoria)}
     </div>)
   }
 
@@ -48,6 +48,8 @@ const MenuCategorias = () => {
 
   //   setFecha(fecha.getDate(1))
   // }
+
+  
 
   function mostrar () {
     if (!categorias) return <h1>Cargando</h1>
@@ -63,6 +65,7 @@ const MenuCategorias = () => {
           </div>
           <h1>Categorías</h1>
           {Recorrido(categorias)}
+          
         </>
       )
     }
