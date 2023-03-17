@@ -10,9 +10,10 @@ const MenuCategorias = () => {
   useEffect(() => {
     const databla = async () => {
       const hola = {
+        cuentaId: 1,
         fechaInicio: (new Date(fecha)).toISOString().slice(0, 10),
         // fechaInicio: fecha.toLocaleDateString('es-ES', { year: 'numeric', month: '2-digit', day: '2-digit' }).split('/').reverse().join('-'),
-        fechaFinal: '2023-03-06'
+        fechaFinal: new Date().toISOString().slice(0, 10)
       }
       const { data } = await axios.post('/api/cuenta/spCategoriasFechas', hola)
       setCategorias(data)
@@ -23,15 +24,18 @@ const MenuCategorias = () => {
   const handleChange = (fecha) => setFecha(fecha)
 
   const [categorias, setCategorias] = useState()
-  function Recorrido(categoria) {
+  function Recorrido (categoria) {
     return (<div>
       {
-        categoria[0].map(({ ID, Categoría, Total, Porcentaje }, index) => (
+        categoria[0].map(({ ID, Categoria, Total, Porcentaje }, index) => (
           <div key={ID}>
-            <p>{Categoría} {Total} {Porcentaje}</p>
+            <p>{Categoria} {Total} {Porcentaje}</p>
           </div>
         ))
       }
+      <h2>Suma Total</h2>
+      <p>{categoria[2][0].SumaIngresos}</p>
+
     </div>)
   }
 
@@ -45,7 +49,7 @@ const MenuCategorias = () => {
   //   setFecha(fecha.getDate(1))
   // }
 
-  function mostrar() {
+  function mostrar () {
     if (!categorias) return <h1>Cargando</h1>
     else {
       return (

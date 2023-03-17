@@ -1,3 +1,4 @@
+import MenuCategorias from '@/components/MenuCategorias'
 import Layout from '@/components/plantiila/Layout'
 import Nav from '@/components/plantiila/Nav'
 import { contexto } from '@/contexts/Cuenta'
@@ -18,7 +19,7 @@ export default function cuenta () {
 
   return (
     <>
-      <h1 className='container mx-auto z-10 fixed w-full flex top-0 justify-center py-2 border-b text-2xl font-bold self-center'>
+      {/* <h1 className='container mx-auto z-10 fixed w-full flex top-0 justify-center py-2 border-b text-2xl font-bold self-center'>
         Cuentas
       </h1>
 
@@ -52,7 +53,8 @@ export default function cuenta () {
             Agregar Nueva Cuenta
           </button>
         </div>
-      </div>
+      </div> */}
+      <MenuCategorias/>
     </>
   )
 }

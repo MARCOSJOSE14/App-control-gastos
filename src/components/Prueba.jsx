@@ -10,7 +10,7 @@ const Prueba = () => {
 
   useEffect(() => {
     const databla = async () => {
-      const { data } = await axios.get('/api/cuenta/datos')
+      const { data } = await axios.get('/api/cuenta/1/datos')
       setDatosgasto(data)
       // console.log(data)
     }
