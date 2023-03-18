@@ -1,91 +1,89 @@
 import { contexto } from '@/contexts/Cuenta'
 import { isoDate, pen } from '@/hooks/Fecha'
-import { diario } from '@/hooks/Filtro'
+import { hooApi } from '@/hooks/hooApi'
 import { hooCat } from '@/hooks/hooCat'
 import Toast from '@/hooks/Toast'
 import { PDFDownloadLink } from '@react-pdf/renderer'
-import axios from 'axios'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import Exportar from './Exportar'
 import ModalTraDetalle from './ModalTraDetalle'
+import ModFormA from './ModFormA'
 
 const Datagrid = ({ numero, ffecha, esTraTipo }) => {
-  const { ctxTostada, ctxCuenta } = contexto()
+  const { ctxTostada } = contexto()
 
   const { push } = useRouter()
 
-  const [datainfo, setDatainfo] = useState()
-  const [datosModal, setDatosModal] = useState()
+  const [dataDetalle, setDataDetalle] = useState()
   const [modalEstado, setModalEstado] = useState(false)
+  const [abrir, setAbrir] = useState(false)
 
-  const fnModal = (catDes, sumCat, traDate, catImg, catColor, catId) => {
-    setDatosModal({ catDes, sumCat, traDate, catImg, catColor, catId })
-    setModalEstado(true)
+  const dataModal = { traDes: '', tipo: esTraTipo, traMonto: '', traDate: (isoDate(ffecha.i) === isoDate(ffecha.f) ? (ffecha.i) : ''), catId: 0, catImg: 0, catDes: '', catColor: '' }
+
+  const fnCerrarModal = (ID, ffechai, ffechaf) => {
+    setDataDetalle({
+      id: ID,
+      fechaI: ffechai,
+      fechaF: ffechaf
+    })
+    setModalEstado(!modalEstado)
   }
 
-  const fnCerrarModal = () => {
-    setModalEstado(false)
-    push(`/cuenta/${ctxCuenta}`)
+  const fnTurn = () => {
+    setAbrir(false)
   }
 
-  const fnActuDatos = () => {
-    return (diario(isoDate(ffecha.i), isoDate(ffecha.f), datainfo))
+  const fnOpenModal = () => {
+    setAbrir(true)
+    push('#newTra')
   }
 
-  useEffect(() => {
-    axios.get(`/api/cuenta/${numero}/datos`)
-      .then(({ data }) => {
-        setDatainfo(data)
-      })
-      .catch((error) => {
-        console.error(error)
-      })
-  }, [ctxTostada])
+  const dataA = hooApi(`cuenta/${numero}/datos/?fechai=${isoDate(ffecha.i)}&fechaf=${isoDate(ffecha.f)}`, '', 'GET', [ffecha.i, ffecha.f])
 
-  if (!datainfo) return Toast(true, 1)
+  if (!dataA) return Toast(true, 1)
 
   return (
     <>
-      <PDFDownloadLink document={<Exportar fecha={ffecha} data={fnActuDatos()} />} fileName='Transacciones.pdf'>
+      <ModFormA turnModal={fnTurn} estado={abrir} dataModal ={dataModal}/>
+      <div className='container mx-auto fixed bottom-0 w-full px-10 z-30 mb-12 py-2 bg-gray-200'>
+        <button onClick={fnOpenModal} className='btnVerde px-5 w-full'>Agregar Transacción</button>
+      </div>
+      {/* <PDFDownloadLink document={<Exportar fecha={ffecha} data={fnActuDatos()} />} fileName='Transacciones.pdf'>
         <button className='fixed top-0 right-0 p-3 z-30'>
           <svg className='fill-blue-800' xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M6 13h4v-7h4v7h4l-6 6-6-6zm16-1c0 5.514-4.486 10-10 10s-10-4.486-10-10 4.486-10 10-10 10 4.486 10 10zm2 0c0-6.627-5.373-12-12-12s-12 5.373-12 12 5.373 12 12 12 12-5.373 12-12z"/></svg>
         </button>
-      </PDFDownloadLink>
-      <ModalTraDetalle estado = {modalEstado} closeModal = {fnCerrarModal} datos = {datosModal} />
-      <div className='pb-16 '>
+      </PDFDownloadLink> */}
+      {(modalEstado) && <ModalTraDetalle closeModal = {fnCerrarModal} data = {dataDetalle} />}
+      <div className='flex justify-center text-2xl fixed z-30 mx-auto w-full py-1 font-bold bg-gray-200'>
+        <h1 className='bg-white w-full mx-2 text-center rounded py-1'>{pen(dataA.totales[esTraTipo])}</h1>
+      </div>
 
-        {(datainfo.length === 0
-          ? (
-            <p className='italic flex justify-center text-lg text-gray-500/70 font-semibold'>
-              Hey!, Agrega tu primera Transacción
-            </p>
-            )
-          : (
-              <div className='flex flex-col gap-2'>
-                {(!(fnActuDatos().resultado[esTraTipo]))
-                  ? <p className='flex justify-center'>No hay {esTraTipo}s </p>
-                  : fnActuDatos().resultado[esTraTipo].map(({ catDes, sumCat, traDate, catImg, catColor, catId }, index) => (
-                  <Link href={'#detalle'} onClick={() => fnModal(catDes, sumCat, traDate, catImg, catColor, catId, traDate)}
-                  key={index}
-                  className='bg-white rounded-lg mx-2 border px-3 py-2 grid grid-cols-7 gap-2 '>
-                    <div className='flex gap-2 col-span-4 items-center grow'>
-                      <div className='flex rounded-full p-2 h-full fill-white ' style={{ backgroundColor: catColor }}>
-                        {hooCat(catImg)}
-                      </div>
-                      <h1 className=''>{catDes}</h1>
-                    </div>
-                    <div className='col-span-3 grid grid-cols-2 gap-2 items-center'>
-                      <h1 className='col-span-1 text-right'>{((sumCat / fnActuDatos().total[esTraTipo]) * 100).toFixed(0) } %</h1>
-                      <h1 className='col-span-1 text-right'>{pen(sumCat) }</h1>
-                    </div>
-                  </Link>
-                  )
-                  )}
-              </div>
-            )
-              )}
+      <div className='pb-16 mt-12'>
+        <div className='flex flex-col gap-2'>
+          {(!dataA[esTraTipo])
+            ? <p className='flex justify-center'>No hay {esTraTipo}s </p>
+            : dataA[esTraTipo].map(({ ID, Categoria, catColor, catImg, Total, Porcentaje }) => (
+              <Link
+              href={'#detalle'}
+              onClick={() => fnCerrarModal(ID, isoDate(ffecha.i), isoDate(ffecha.f))}
+              key={ID}
+              className='bg-white rounded-lg mx-2 border px-3 py-2 grid grid-cols-7 gap-2 '>
+                <div className='flex gap-2 col-span-4 items-center grow '>
+                  <div className='flex rounded-full p-2 h-full fill-white ' style={{ backgroundColor: catColor }}>
+                    {hooCat(catImg)}
+                  </div>
+                  <h1>{Categoria}</h1>
+                </div>
+                <div className='col-span-3 grid grid-cols-2 gap-1 items-center text-right '>
+                  <h1 className='text-gray-600'>{(Number(Porcentaje)).toFixed(0)}%</h1>
+                  <h1>{Total}</h1>
+                </div>
+              </Link>
+            ))
+            }
+        </div>
       </div>
     </>
   )

@@ -7,8 +7,8 @@ import { useRouter } from 'next/router'
 import Categorias from '@/components/ajustes/Categorias'
 
 const config = () => {
-  const { push } = useRouter()
-
+  const { reload } = useRouter()
+  console.log(useRouter())
   const cerrando = () => {
     axios.post('/api/logout')
       .then((data) => {
@@ -18,7 +18,7 @@ const config = () => {
         console.log(error)
       })
       .finally(() => {
-        push('/')
+        reload()
       })
   }
 

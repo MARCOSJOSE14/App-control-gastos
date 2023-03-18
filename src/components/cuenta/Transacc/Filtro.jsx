@@ -174,8 +174,8 @@ const Filtro = ({ numero }) => {
   }
   return (
     <>
-        <div className='w-full h-40'/>
-        <div className='fixed pt-12 top-0 container mx-auto  bg-gray-200'>
+        <div className='w-full h-[8.5rem]'/>
+        <div className='fixed pt-9 top-0 container mx-auto  bg-gray-200'>
           <div className='rounded bg-white shadow border m-2'>
             <div className='flex justify-evenly uppercase font-bold text-[#324c5b] text-center my-1 border-b py-2'>
               <button onClick={fnCamTipo} name='gasto' className={(esTraTipo === 'gasto' ? 'underline text-red-600' : 'no-underline')}>Gastos</button>

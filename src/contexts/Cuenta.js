@@ -15,13 +15,7 @@ export function MyContextProvider ({ children }) {
   const ctxCamCue = (dato) => setCtxCuenta(dato)
   const ctxCamUsu = (dato) => setCtxUsuario(dato)
 
-  const [contCat, setContCat] = useState({ catId: 0, catDesc: 'Nombre', cueId: 0 })
-  const [nuevoI, setNuevoI] = useState(1)
-
-  const camCat = (nuevacat) => setContCat(nuevacat)
-  const camNue = (nuevo) => setNuevoI(nuevoI + 1)
-
-  return <MyContext.Provider value={{ ctxUsuario, ctxCamUsu, contCat, camCat, nuevoI, camNue, ctxMensaje, ctxCamMen, ctxCamCue, ctxCuenta, ctxTostada, ctxCamTos }}>{children}</MyContext.Provider>
+  return <MyContext.Provider value={{ ctxUsuario, ctxCamUsu, ctxMensaje, ctxCamMen, ctxCamCue, ctxCuenta, ctxTostada, ctxCamTos }}>{children}</MyContext.Provider>
 }
 
 export default MyContext
