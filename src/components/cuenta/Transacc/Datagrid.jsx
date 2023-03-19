@@ -1,6 +1,6 @@
 import { contexto } from '@/contexts/Cuenta'
 import { isoDate, pen } from '@/hooks/Fecha'
-import { hooApi } from '@/hooks/hooApi'
+import { hooApi, hooAsi } from '@/hooks/hooApi'
 import { hooCat } from '@/hooks/hooCat'
 import Toast from '@/hooks/Toast'
 import { PDFDownloadLink } from '@react-pdf/renderer'
@@ -12,13 +12,15 @@ import ModalTraDetalle from './ModalTraDetalle'
 import ModFormA from './ModFormA'
 
 const Datagrid = ({ numero, ffecha, esTraTipo }) => {
-  const { ctxTostada } = contexto()
+  const { ctxCamMen } = contexto()
 
   const { push } = useRouter()
 
   const [dataDetalle, setDataDetalle] = useState()
   const [modalEstado, setModalEstado] = useState(false)
   const [abrir, setAbrir] = useState(false)
+  const [esDescarga, setEsDescarga] = useState(false)
+  const [datoPDF, setDatoPDF] = useState()
 
   const dataModal = { traDes: '', tipo: esTraTipo, traMonto: '', traDate: (isoDate(ffecha.i) === isoDate(ffecha.f) ? (ffecha.i) : ''), catId: 0, catImg: 0, catDes: '', catColor: '' }
 
@@ -39,22 +41,46 @@ const Datagrid = ({ numero, ffecha, esTraTipo }) => {
     setAbrir(true)
     push('#newTra')
   }
+  // hooAsi(`cuenta/${numero}/apiPDF/?fechai=${isoDate(ffecha.i)}&fechaf=${isoDate(ffecha.f)}`)
+  // const fnActuDatos = () => {
+  //   return hooAsi(`cuenta/${numero}/apiPDF/?fechai=${isoDate(ffecha.i)}&fechaf=${isoDate(ffecha.f)}`)
+  // }
 
-  const dataA = hooApi(`cuenta/${numero}/datos/?fechai=${isoDate(ffecha.i)}&fechaf=${isoDate(ffecha.f)}`, '', 'GET', [ffecha.i, ffecha.f])
+  const fnDescarga = () => {
+    const hola = (hooAsi(`cuenta/${numero}/apiPDF/?fechai=${isoDate(ffecha.i)}&fechaf=${isoDate(ffecha.f)}`))
+    console.log(hola)
+    // if (error) {
+    //   ctxCamMen(true, 1)
+    // } else {
+    //   setDatoPDF(data)
+    // }
+    // setEsDescarga(!esDescarga)
+  }
+
+  const dataA = hooApi(`cuenta/${numero}/apiDatos/?fechai=${isoDate(ffecha.i)}&fechaf=${isoDate(ffecha.f)}`, '', 'GET', [ffecha.i, ffecha.f])
 
   if (!dataA) return Toast(true, 1)
 
   return (
     <>
       <ModFormA turnModal={fnTurn} estado={abrir} dataModal ={dataModal}/>
+
       <div className='container mx-auto fixed bottom-0 w-full px-10 z-30 mb-12 py-2 bg-gray-200'>
         <button onClick={fnOpenModal} className='btnVerde px-5 w-full'>Agregar Transacción</button>
       </div>
-      {/* <PDFDownloadLink document={<Exportar fecha={ffecha} data={fnActuDatos()} />} fileName='Transacciones.pdf'>
-        <button className='fixed top-0 right-0 p-3 z-30'>
-          <svg className='fill-blue-800' xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M6 13h4v-7h4v7h4l-6 6-6-6zm16-1c0 5.514-4.486 10-10 10s-10-4.486-10-10 4.486-10 10-10 10 4.486 10 10zm2 0c0-6.627-5.373-12-12-12s-12 5.373-12 12 5.373 12 12 12 12-5.373 12-12z"/></svg>
-        </button>
-      </PDFDownloadLink> */}
+
+      <button onClick={fnDescarga} className='fixed top-0 right-0 p-3 z-30'>
+        <svg className='fill-blue-800' xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M6 13h4v-7h4v7h4l-6 6-6-6zm16-1c0 5.514-4.486 10-10 10s-10-4.486-10-10 4.486-10 10-10 10 4.486 10 10zm2 0c0-6.627-5.373-12-12-12s-12 5.373-12 12 5.373 12 12 12 12-5.373 12-12z"/></svg>
+      </button>
+
+      {esDescarga && (
+        <PDFDownloadLink document={<Exportar fecha={ffecha} data={datoPDF} />} fileName='Transacciones.pdf'>
+                {({ blob, url, loading, error }) =>
+                  loading ? 'Cargando documento...' : ('Descargar documento')
+      }
+        </PDFDownloadLink>
+      )}
+
       {(modalEstado) && <ModalTraDetalle closeModal = {fnCerrarModal} data = {dataDetalle} />}
       <div className='flex justify-center text-2xl fixed z-30 mx-auto w-full py-1 font-bold bg-gray-200'>
         <h1 className='bg-white w-full mx-2 text-center rounded py-1'>{pen(dataA.totales[esTraTipo])}</h1>
