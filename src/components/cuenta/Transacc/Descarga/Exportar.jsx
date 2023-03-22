@@ -169,7 +169,7 @@ const Exportar = ({ fecha, data, saldo }) => {
 
       <View style={styles.resDtgTitulo}>
         <Text style={styles.title2}>Resultado ( (+/-) Saldo + Ingresos - Gastos )</Text>
-        <Text style={styles.content}>{pen(saldo + total.gasto + total.ingreso)}</Text>
+        <Text style={styles.content}>{pen(saldo - total.gasto + total.ingreso)}</Text>
       </View>
 
     </Page>
