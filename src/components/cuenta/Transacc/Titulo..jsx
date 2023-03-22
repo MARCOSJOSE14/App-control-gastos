@@ -1,15 +1,27 @@
+import TituloNav from '@/components/plantiila/TituloNav'
 import { apiSure } from '@/hooks/apiSure'
+import { pen } from '@/hooks/Fecha'
+import { hooApi } from '@/hooks/hooApi'
 import Toast from '@/hooks/Toast'
 
 const Titulo = ({ numero }) => {
   const datainfo = apiSure(`cuenta/titulo/?id=${numero}`)
+  const saldo = hooApi(`cuenta/${numero}/apiSaldoActual`)
 
-  if (!datainfo) return Toast(true, 1)
+  if (!datainfo || saldo === undefined) return Toast(true, 1)
   return (
     <>
-    <h1 className='container mx-auto z-10 fixed w-full flex top-0 justify-center py-2 border-b text-2xl font-bold self-center'>
-      {datainfo.cueDes}
-    </h1>
+    <TituloNav>
+      <div className='flex justify-evenly w-full'>
+        <p className='font-normal'>
+          {datainfo.cueDes}
+        </p>
+
+        <p>
+          {pen(saldo)}
+        </p>
+      </div>
+    </TituloNav>
 
     </>
   )

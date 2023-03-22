@@ -12,7 +12,7 @@ export const Mensaje = (activo, tipo, funcion, objeto1, objeto2) => {
     switch (tipo) {
       case 1:
         return (
-            <div className="fixed inset-0 bg-black/50 flex items-end z-50">
+            <div className="fixed inset-0 bg-black/50 flex items-end z-[51]">
               <div className="bottom-0 w-full bg-white p-4 rounded-lg flex flex-col gap-5">
                 <button onClick={cancelar} className='self-end '>
                   <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24"><path d="M23 20.168l-8.185-8.187 8.185-8.174-2.832-2.807-8.182 8.179-8.176-8.179-2.81 2.81 8.186 8.196-8.186 8.184 2.81 2.81 8.203-8.192 8.18 8.192z"/></svg>

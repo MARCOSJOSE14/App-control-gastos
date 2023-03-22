@@ -1,3 +1,19 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+body{
+  @apply bg-gray-100
+}
+
+.btnVerde {
+  @apply rounded-md border  py-1 text-white bg-green-600 font-semibold flex justify-center w-full
+}
+
+.btnGris {
+  @apply rounded-md border  py-1 bg-gray-200 text-slate-500 font-semibold flex justify-center w-full
+}
+
+.btnRed {
+  @apply rounded-md border  py-1 text-white bg-red-600 font-semibold flex justify-center w-full
+}

@@ -8,7 +8,7 @@ export const isoDate = (datafecha) => (new Date(datafecha)).toISOString().slice(
 
 export const longDate = (datafecha) => (new Date(datafecha)).toLocaleDateString('es-ES', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })
 
-export const espeDate = (datafecha) => (new Date(datafecha)).toLocaleDateString('es-ES', { weekday: 'short', day: 'numeric', month: 'numeric', year: 'numeric' })
+export const espeDate = (datafecha) => (new Date(datafecha)).toLocaleDateString('es-ES', { weekday: 'long', day: 'numeric', month: 'numeric', year: 'numeric' })
 
 export const mesDate = (datafecha) => (new Date(datafecha)).toLocaleDateString('es-ES', { month: 'long', year: 'numeric' })
 

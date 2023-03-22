@@ -8,7 +8,7 @@ const Layout = ({ children }) => {
   return (
     <>
       {Mensaje(ctxMensaje.a, ctxMensaje.b, ctxMensaje.c)}
-      {Toast(ctxTostada.a, ctxTostada.b)}
+      {Toast(ctxTostada.a, ctxTostada.b, ctxTostada.c)}
       {children}
     </>
   )
