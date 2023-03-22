@@ -3,14 +3,16 @@ import { useState } from 'react'
 import Datagrid from './Datagrid'
 
 const Filtro = ({ numero }) => {
+  const fechaA = new Date()
+  const fechaB = new Date(fechaA.getFullYear(), fechaA.getMonth(), 1)
   const [ffecha, setFfecha] = useState(
     {
-      i: (new Date()),
-      f: (new Date())
+      i: fechaB,
+      f: new Date(fechaB.getFullYear(), fechaB.getMonth() + 1, 0)
     }
   )
 
-  const [fTipo, setFTipo] = useState('day')
+  const [fTipo, setFTipo] = useState('month')
   const [esTraTipo, setEsTraTipo] = useState('gasto')
 
   const cambioFecha = (fechaBase) => {
@@ -106,7 +108,7 @@ const Filtro = ({ numero }) => {
         setFfecha(
           {
             i: semanaN,
-            f: new Date(ffecha.f.getFullYear(), ffecha.f.getMonth(), semanaN.getDate() + 6)
+            f: new Date(semanaN.getFullYear(), semanaN.getMonth(), semanaN.getDate() + 6)
           }
         )
         break

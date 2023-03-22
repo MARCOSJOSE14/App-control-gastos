@@ -1,11 +1,10 @@
 import { pool } from 'config/db'
 
-export default async function apiCatNew (req, res) {
-  if (req.method === 'POST') {
+export default async function apiTraEdit (req, res) {
+  if (req.method === 'PUT') {
     try {
-      const { nombre, tipo, icono, color, user } = req.body
-      const [resp] = await pool.query('call SpCatNew (?, ?, ?, ?, ?);', [nombre, icono, tipo, color, user])
-
+      const { traDes, traMonto, traDate, catId, traId } = req.body
+      const [resp] = await pool.query('call SpTraEdit (?, ?, ?, ?, ?);', [traDes, traMonto, traDate, catId, traId])
       if (resp.affectedRows === 0) {
         return res.status(200).json({ modo: true, tipo: 4 })
       }

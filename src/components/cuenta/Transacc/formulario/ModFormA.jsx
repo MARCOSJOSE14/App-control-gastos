@@ -7,7 +7,7 @@ import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
 import ModFormB from './ModFormB'
 
-const ModFormA = ({ turnModal, estado, dataModal }) => {
+const ModFormA = ({ turnModal, dataModal }) => {
   const [dataCat, setDataCat] = useState()
   const [newData, setNewData] = useState(dataModal)
   const [esTipoCat, setEsTipoCat] = useState(dataModal.tipo)
@@ -16,6 +16,12 @@ const ModFormA = ({ turnModal, estado, dataModal }) => {
   const { ctxUsuario, ctxCuenta } = contexto()
 
   const { push } = useRouter()
+
+  useEffect(() => {
+    if (dataModal.tipoForm === 'editar') {
+      setEsCat(false)
+    }
+  }, [])
 
   const fnCamEsCat = () => {
     setEsCat(!esCat)
@@ -42,6 +48,11 @@ const ModFormA = ({ turnModal, estado, dataModal }) => {
     setEsCat(false)
   }
 
+  const fnCat = () => {
+    if (dataModal.catId !== newData.catId && dataModal.tipoForm === 'editar') return true
+    return false
+  }
+
   useEffect(() => {
     axios.get(`/api/usuario/${ctxUsuario.usuId}/apiCat`)
       .then(({ data }) => {
@@ -57,20 +68,18 @@ const ModFormA = ({ turnModal, estado, dataModal }) => {
     }
   }, [])
 
-  console.log(newData.catId)
   useEffect(() => {
     if (dataModal.tipo !== newData.tipo || dataModal.traDate !== newData.traDate) {
       setEsTipoCat(dataModal.tipo)
       setNewData(dataModal)
     }
   }, [dataModal])
+
   if (!dataCat) return Toast(true, 1)
   return (
     <>
-      {(estado) && (
-        <>
         {
-          (esCat) && <div onClick={fnCloseForm} className='fixed mx-auto inset-0 flex flex-col justify-end bg-black/50 pb-12 z-40'>
+          (esCat) && <div onClick={fnCloseForm} className='fixed mx-auto inset-0 flex flex-col justify-end bg-black/50 pb-12 z-[41]'>
             <div onClick={fnStop} className='w-full flex flex-col bg-white  rounded-t-xl p-3 fixed'>
               <div className='flex  flex-col px-3 py-2'>
                 {hooFiltroCat(dataCat)[esTipoCat].map(({ catId, catImg, catDes, catColor, catTipo }) => (
@@ -93,11 +102,9 @@ const ModFormA = ({ turnModal, estado, dataModal }) => {
           </div>}
 
         {
-          <ModFormB turnModal={fnCloseForm} camEstCat={fnCamEsCat} data ={newData} />
+          <ModFormB turnModal={fnCloseForm} camEstCat={fnCamEsCat} data ={newData} cat={fnCat()} />
         }
-      </>
-      )
-    }
+
     </>
   )
 }

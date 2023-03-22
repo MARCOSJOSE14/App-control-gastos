@@ -8,7 +8,6 @@ import Categorias from '@/components/ajustes/Categorias'
 
 const config = () => {
   const { reload } = useRouter()
-  console.log(useRouter())
   const cerrando = () => {
     axios.post('/api/logout')
       .then((data) => {

@@ -1,4 +1,4 @@
-import { espeDate, pen } from '@/hooks/Fecha'
+import { espeDate, longDate, mesDate, pen, yearDate } from '@/hooks/Fecha'
 import { StyleSheet, View, Text, Page, Document } from '@react-pdf/renderer'
 
 const styles = StyleSheet.create({
@@ -12,8 +12,9 @@ const styles = StyleSheet.create({
   title: {
     textAlign: 'center',
     fontSize: '20pt',
-    marginBottom: '20pt',
-    fontWeight: 'bold'
+    marginBottom: '24pt',
+    fontFamily: 'Helvetica-Bold',
+    textTransform: 'uppercase'
   },
   subtitle: {
     fontSize: '16pt',
@@ -50,7 +51,10 @@ const styles = StyleSheet.create({
   date: {
     borderBottomWidth: 1,
     marginVertical: 5,
-    fontFamily: 'Times-Italic'
+    fontFamily: 'Times-Italic',
+    display: 'flex',
+    justifyContent: 'space-between',
+    flexDirection: 'row'
   },
   transaction: {
     flexDirection: 'row',
@@ -79,22 +83,38 @@ const styles = StyleSheet.create({
   }
 })
 
-const Exportar = ({ fecha, data }) => {
+const Exportar = ({ fecha, data, saldo }) => {
+  const dias = Math.floor((fecha.f - fecha.i) / 86400000)
+  let titulo
+  switch (true) {
+    case dias === 0:
+      titulo = longDate(fecha.i)
+      break
+    case dias === 6:
+      titulo = espeDate(fecha.i) + ' - ' + espeDate(fecha.f)
+      break
+    case dias < 32:
+      titulo = mesDate(fecha.i)
+      break
+    default:
+      titulo = yearDate(fecha.i)
+      break
+  }
   const { resultado, total } = data
   return (
   <>
 <Document>
     <Page style={styles.page}>
       <View>
-        <Text style={styles.title}>{espeDate(fecha.i)}</Text>
+        <Text style={styles.title}>{titulo}</Text>
       </View>
       <View>
         <Text style={styles.subtitle}>Resumen</Text>
       </View>
 
       <View style={styles.resDtgTitulo}>
-        <Text style={styles.title2}>Saldo:</Text>
-        <Text style={styles.content}>XXXXX</Text>
+        <Text style={styles.title2}>Saldo al {espeDate(fecha.i)}:</Text>
+        <Text style={styles.content}>{pen(saldo)}</Text>
       </View>
 
       <View style={{ marginVertical: 10 }}>
@@ -148,8 +168,8 @@ const Exportar = ({ fecha, data }) => {
       </View>
 
       <View style={styles.resDtgTitulo}>
-        <Text style={styles.title2}>Resultado</Text>
-        <Text style={styles.content}>XXXXX</Text>
+        <Text style={styles.title2}>Resultado ( (+/-) Saldo + Ingresos - Gastos )</Text>
+        <Text style={styles.content}>{pen(saldo + total.gasto + total.ingreso)}</Text>
       </View>
 
     </Page>
@@ -177,9 +197,12 @@ const Exportar = ({ fecha, data }) => {
 
                 <Text>{pen(sumCat)}</Text>
               </View>
-              {traDate.map(({ fecha, traDetalles }) => (
+              {traDate.map(({ fecha, traDetalles, sumFecha }) => (
                 <View key={fecha} style={{ marginVertical: 5, marginHorizontal: 8 }}>
-                  <Text style={styles.date}>{espeDate(fecha)}</Text>
+                  <View style={styles.date}>
+                    <Text>{espeDate(fecha)}</Text>
+                    <Text>{pen(sumFecha)}</Text>
+                  </View>
                   {traDetalles.map(({ traDes, traId, traMonto }) => (
                     <View key={traId} style={styles.transaction}>
                       <Text>{traDes}</Text>
@@ -215,9 +238,12 @@ const Exportar = ({ fecha, data }) => {
 
               <Text>{pen(sumCat)}</Text>
             </View>
-            {traDate.map(({ fecha, traDetalles }) => (
+            {traDate.map(({ fecha, traDetalles, sumFecha }) => (
               <View key={fecha} style={{ marginVertical: 5, marginHorizontal: 5 }}>
-                <Text style={styles.date}>{espeDate(fecha)}</Text>
+                  <View style={styles.date}>
+                    <Text>{espeDate(fecha)}</Text>
+                    <Text>{pen(sumFecha)}</Text>
+                  </View>
                 {traDetalles.map(({ traDes, traId, traMonto }) => (
                   <View key={traId} style={styles.transaction}>
                     <Text>{traDes}</Text>

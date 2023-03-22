@@ -10,7 +10,7 @@ import CatUpdate from './CatUpdate'
 
 const Categorias = () => {
   const { usuId } = contexto().ctxUsuario
-  const { ctxTostada, ctxCamTos, ctxCamMen, ctxCuenta } = contexto()
+  const { ctxTostada, ctxCamTos, ctxCamMen, ctxUsuario } = contexto()
 
   const [dataCat, setDataCat] = useState()
   const [esTipoCat, setEsTipoCat] = useState('ingreso')
@@ -21,7 +21,7 @@ const Categorias = () => {
     icono: 0,
     color: '',
     catId: 0,
-    cuenta: ctxCuenta
+    user: ctxUsuario.usuId
   })
 
   const { push } = useRouter()
@@ -55,7 +55,7 @@ const Categorias = () => {
       icono: catImg,
       color: catColor,
       catId,
-      cuenta: ctxCuenta
+      user: ctxUsuario.usuId
     })
     setEstModalCat(!estModalCat)
   }
@@ -73,7 +73,7 @@ const Categorias = () => {
       icono: 0,
       color: '',
       catId: 0,
-      cuenta: ctxCuenta
+      user: ctxUsuario.usuId
     })
     setEstModalCat(!estModalCat)
   }
