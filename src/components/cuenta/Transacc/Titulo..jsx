@@ -1,4 +1,4 @@
-import TituloNav from '@/components/plantiila/TituloNav'
+import TituloNav from '@/components/plantilla/TituloNav'
 import { contexto } from '@/contexts/Cuenta'
 import { apiSure } from '@/hooks/apiSure'
 import { pen } from '@/hooks/Fecha'

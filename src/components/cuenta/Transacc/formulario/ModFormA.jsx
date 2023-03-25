@@ -1,24 +1,21 @@
+import Modales from '@/components/plantilla/Modales'
 import { contexto } from '@/contexts/Cuenta'
+import { hooApi } from '@/hooks/hooApi'
 import { hooCat } from '@/hooks/hooCat'
 import { hooFiltroCat } from '@/hooks/hooFiltroCat'
 import Toast from '@/hooks/Toast'
-import axios from 'axios'
-import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
 import ModFormB from './ModFormB'
 
 const ModFormA = ({ turnModal, dataModal }) => {
-  const [dataCat, setDataCat] = useState()
   const [newData, setNewData] = useState(dataModal)
   const [esTipoCat, setEsTipoCat] = useState(dataModal.tipo)
   const [esCat, setEsCat] = useState(true)
 
   const { ctxUsuario, ctxCuenta } = contexto()
 
-  const { push } = useRouter()
-
   useEffect(() => {
-    if (dataModal.tipoForm === 'editar') {
+    if (dataModal.tipoForm === 'editar' || dataModal.catId !== 0) {
       setEsCat(false)
     }
   }, [])
@@ -28,13 +25,6 @@ const ModFormA = ({ turnModal, dataModal }) => {
   }
 
   const fnTipoCat = ({ target: { name } }) => setEsTipoCat(name)
-
-  const fnStop = (e) => e.stopPropagation()
-
-  const fnCloseForm = () => {
-    turnModal()
-    push(`/cuenta/${ctxCuenta}`)
-  }
 
   const fnCatSelect = (catId, catImg, catDes, catColor, catTipo) => {
     setNewData({
@@ -49,24 +39,12 @@ const ModFormA = ({ turnModal, dataModal }) => {
   }
 
   const fnCat = () => {
-    if (dataModal.catId !== newData.catId && dataModal.tipoForm === 'editar') return true
+    if (dataModal.catId === newData.catId && dataModal.tipoForm === 'editar') return false
+    if (newData.catId !== 0) return true
     return false
   }
 
-  useEffect(() => {
-    axios.get(`/api/usuario/${ctxUsuario.usuId}/apiCat`)
-      .then(({ data }) => {
-        setDataCat(data)
-      })
-      .catch((error) => {
-        console.error(error)
-      })
-    window.addEventListener('popstate', turnModal)
-
-    return () => {
-      window.removeEventListener('popstate', turnModal)
-    }
-  }, [])
+  const dataCat = hooApi(`usuario/${ctxUsuario.usuId}/apiCat`)
 
   useEffect(() => {
     if (dataModal.tipo !== newData.tipo || dataModal.traDate !== newData.traDate) {
@@ -79,8 +57,8 @@ const ModFormA = ({ turnModal, dataModal }) => {
   return (
     <>
         {
-          (esCat) && <div onClick={fnCloseForm} className='fixed mx-auto inset-0 flex flex-col justify-end bg-black/50 pb-12 z-[41]'>
-            <div onClick={fnStop} className='w-full flex flex-col bg-white  rounded-t-xl p-3 fixed'>
+          (esCat) &&
+          <Modales fnAtras={turnModal} enlace={`/cuenta/${ctxCuenta}`} z={49}>
               <div className='flex  flex-col px-3 py-2'>
                 {hooFiltroCat(dataCat)[esTipoCat].map(({ catId, catImg, catDes, catColor, catTipo }) => (
                   <button key={catId} onClick={() => fnCatSelect(catId, catImg, catDes, catColor, catTipo)}
@@ -98,11 +76,11 @@ const ModFormA = ({ turnModal, dataModal }) => {
                 <button onClick={fnTipoCat} name='gasto' className={(esTipoCat === 'gasto') ? ('underline text-red-600') : ('no-underline')}>Gastos</button>
                 <button onClick={fnTipoCat} name='ingreso' className={(esTipoCat === 'ingreso') ? ('underline text-green-600') : ('no-underline')}>Ingresos</button>
               </div>
-            </div>
-          </div>}
+          </Modales>
+          }
 
         {
-          <ModFormB turnModal={fnCloseForm} camEstCat={fnCamEsCat} data ={newData} cat={fnCat()} />
+          <ModFormB turnModal={turnModal} camEstCat={fnCamEsCat} data ={newData} cat={fnCat()} />
         }
 
     </>

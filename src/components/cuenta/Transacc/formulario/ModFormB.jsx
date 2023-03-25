@@ -1,15 +1,13 @@
+import Modales from '@/components/plantilla/Modales'
 import { contexto } from '@/contexts/Cuenta'
 import { hooCat } from '@/hooks/hooCat'
 import axios from 'axios'
-import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
 
 const ModFormB = ({ turnModal, camEstCat, data, cat }) => {
   const { ctxCuenta, ctxCamTos, ctxCamMen } = contexto()
 
   const [dataForm, setDataForm] = useState(data)
-
-  const { push } = useRouter()
 
   const datos = ({ target: { name, value } }) => {
     setDataForm({
@@ -18,17 +16,14 @@ const ModFormB = ({ turnModal, camEstCat, data, cat }) => {
     })
   }
 
-  const fnFormulario = (event) => {
-    event.stopPropagation()
-  }
-
-  const fnCloseForm = () => {
-    turnModal()
-    push(`/cuenta/${ctxCuenta}`)
-  }
-
   const fnBtn = () => {
-    if (cat || data.traDes !== dataForm.traDes || data.traMonto !== dataForm.traMonto || data.traDate !== dataForm.traDate) {
+    if (dataForm.catId !== 0 && dataForm.traDes !== '' && dataForm.traMonto !== '' && dataForm.traDate !== '') {
+      if (data.tipoForm === 'editar') {
+        if (cat || (data.traDes !== dataForm.traDes || data.traMonto !== dataForm.traMonto || data.traDate !== dataForm.traDate)) {
+          return false
+        }
+        return true
+      }
       return false
     }
     return true
@@ -91,21 +86,11 @@ const ModFormB = ({ turnModal, camEstCat, data, cat }) => {
 
   useEffect(() => {
     setDataForm(data)
-    window.addEventListener('popstate', turnModal)
-
-    return () => {
-      window.removeEventListener('popstate', turnModal)
-    }
   }, [data])
 
   return (
       <>
-      <div onClick={fnCloseForm} className='fixed mx-auto inset-0 flex flex-col justify-end bg-black/50 pb-12 z-40'>
-        <div onClick={fnFormulario} className='w-full flex flex-col bg-white  rounded-t-xl p-3 fixed'>
-          <button onClick={turnModal} className='self-end px-2 fill-black text-sm flex items-center gap-2'>
-            <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24"><path d="M23 20.168l-8.185-8.187 8.185-8.174-2.832-2.807-8.182 8.179-8.176-8.179-2.81 2.81 8.186 8.196-8.186 8.184 2.81 2.81 8.203-8.192 8.18 8.192z"/></svg>
-          </button>
-
+      <Modales fnAtras={turnModal} enlace={`/cuenta/${ctxCuenta}`} z={48}>
           <div className='px-5 w-full flex flex-col gap-5 '>
             <div className='flex gap-5 items-center'>
               <label className='text-[#7b93a4] font-medium text-sm'>Categoria:</label>
@@ -184,17 +169,19 @@ const ModFormB = ({ turnModal, camEstCat, data, cat }) => {
               disabled={fnBtn()}
               className={fnBtn() ? 'btnGris' : 'btnVerde'}
               onClick={updateTra}>
-                {(data.tipoForm === 'nuevo') ? 'Nueva Transacción' : 'Editar Transacción'}
+                Guardar Transacción
               </button>
 
-              <button className='btnRed'
-              onClick={fnDelete}>
-                Eliminar Transacción
-              </button>
+              {
+              data.tipoForm === 'editar' &&
+                <button className='btnRed'
+                onClick={fnDelete}>
+                  Eliminar Transacción
+                </button>
+              }
           </form>
         </div>
-      </div>
-    </div>
+      </Modales>
   </>
   )
 }

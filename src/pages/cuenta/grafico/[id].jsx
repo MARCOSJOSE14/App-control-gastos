@@ -1,5 +1,5 @@
-import Layout from '@/components/plantiila/Layout'
-import Nav from '@/components/plantiila/Nav'
+import Layout from '@/components/plantilla/Layout'
+import Nav from '@/components/plantilla/Nav'
 
 const id = () => {
   console.log('xd')

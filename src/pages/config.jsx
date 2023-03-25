@@ -1,10 +1,10 @@
-import Nav from '@/components/plantiila/Nav'
-import Layout from '@/components/plantiila/Layout'
-import TituloNav from '@/components/plantiila/TituloNav'
 import Usuario from '@/components/ajustes/Usuario'
 import axios from 'axios'
 import { useRouter } from 'next/router'
 import Categorias from '@/components/ajustes/Categorias'
+import Layout from '@/components/plantilla/Layout'
+import Nav from '@/components/plantilla/Nav'
+import TituloNav from '@/components/plantilla/TituloNav'
 
 const config = () => {
   const { reload } = useRouter()

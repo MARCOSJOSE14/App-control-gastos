@@ -1,13 +1,11 @@
-
 export const diario = (arreglo) => {
-  const isoDate = (datafecha) => (new Date(datafecha)).toISOString().slice(0, 10)
   const total = { ingreso: 0, gasto: 0 }
 
   const resultado = arreglo.reduce((acumula, { traId, traDes, traDate, traMonto, catTipo, catDes, catImg, catColor, catId }) => {
     total[catTipo] = total[catTipo] + Number(traMonto)
     if (acumula[catTipo]) {
       if (acumula[catTipo].at(-1)?.catDes === catDes) {
-        if (isoDate(acumula[catTipo].at(-1)?.traDate.at(-1).fecha) === isoDate(traDate)) {
+        if ((acumula[catTipo].at(-1)?.traDate.at(-1).fecha).toLocaleString() === (traDate.toLocaleString())) {
           acumula[catTipo].at(-1).traDate.at(-1).sumFecha = acumula[catTipo].at(-1).traDate.at(-1).sumFecha + Number(traMonto)
 
           acumula[catTipo].at(-1)?.traDate.at(-1).traDetalles.push(
@@ -52,4 +50,29 @@ export const diario = (arreglo) => {
     return acumula
   }, {})
   return { resultado, total }
+}
+
+export const fnDetalle = (arr) => {
+  const resultado = arr.reduce((acumula, { Descripcion, Fecha, Monto, ID }) => {
+    if (acumula.at(-1)?.Fecha.toLocaleString() === (Fecha.toLocaleString())) {
+      acumula.at(-1).suma += Number(Monto)
+      acumula.at(-1).dataTra.push({
+        ID,
+        Descripcion,
+        Monto: Number(Monto)
+      })
+    } else {
+      acumula.push({
+        Fecha,
+        suma: Number(Monto),
+        dataTra: [{
+          ID,
+          Descripcion,
+          Monto: Number(Monto)
+        }]
+      })
+    }
+    return acumula
+  }, [])
+  return resultado
 }
