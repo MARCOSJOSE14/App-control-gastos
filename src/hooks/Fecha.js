@@ -14,8 +14,8 @@ export const espeDate = (datafecha) => {
 
 export const espeDate2 = (datafecha) => (new Intl.DateTimeFormat('es-ES', { weekday: 'long', day: 'numeric', month: 'numeric', year: 'numeric' })).format(new Date(datafecha))
 
-export const espeDate3 = () => {
-  const fecha = new Date('2023-03-01T05:00:00.000Z')
+export const espeDate3 = (datafecha) => {
+  const fecha = new Date(datafecha)
 
   const diasSemana = ['domingo', 'lunes', 'martes', 'miércoles', 'jueves', 'viernes', 'sábado']
   const diaSemana = diasSemana[fecha.getUTCDay()]
