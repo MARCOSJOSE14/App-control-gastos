@@ -1,4 +1,4 @@
-import { espeDate, longDate, mesDate, pen, yearDate } from '@/hooks/Fecha'
+import { espeDate3, longDate, mesDate, pen, yearDate } from '@/hooks/Fecha'
 import { StyleSheet, View, Text, Page, Document } from '@react-pdf/renderer'
 
 const styles = StyleSheet.create({
@@ -121,7 +121,7 @@ const Exportar = ({ fecha, data, saldo }) => {
       break
     case dias === 6:
       tipo = 'de la semana'
-      titulo = espeDate(fecha.i) + ' - ' + espeDate(fecha.f)
+      titulo = espeDate3(fecha.i) + ' - ' + espeDate3(fecha.f)
       break
     case dias < 32:
       tipo = 'del mes'
@@ -217,7 +217,7 @@ const Exportar = ({ fecha, data, saldo }) => {
             </View>
             {traDate.map(({ fecha, traDetalles, sumFecha }) => (
               <View key={fecha} style={{ marginVertical: 5, marginHorizontal: 5, marginRight: 70 }}>
-                <Text style={styles.date}>{espeDate(fecha)}</Text>
+                <Text style={styles.date}>{espeDate3(fecha)}</Text>
 
                 {traDetalles.map(({ traDes, traId, traMonto }) => (
                   <View key={traId} style={styles.transaction}>
