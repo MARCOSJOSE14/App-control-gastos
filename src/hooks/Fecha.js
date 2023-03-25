@@ -14,6 +14,20 @@ export const espeDate = (datafecha) => {
 
 export const espeDate2 = (datafecha) => (new Intl.DateTimeFormat('es-ES', { weekday: 'long', day: 'numeric', month: 'numeric', year: 'numeric' })).format(new Date(datafecha))
 
+export const espeDate3 = () => {
+  const fecha = new Date('2023-03-01T05:00:00.000Z')
+
+  const diasSemana = ['domingo', 'lunes', 'martes', 'miércoles', 'jueves', 'viernes', 'sábado']
+  const diaSemana = diasSemana[fecha.getUTCDay()]
+
+  const dia = fecha.getUTCDate()
+  const mes = fecha.getUTCMonth() + 1
+  const anio = fecha.getUTCFullYear()
+
+  const fechaFormateada = `${diaSemana}, ${dia}/${mes}/${anio}`
+  return fechaFormateada
+}
+
 export const mesDate = (datafecha) => (new Date(datafecha)).toLocaleDateString('es-ES', { month: 'long', year: 'numeric' })
 
 export const yearDate = (datafecha) => (new Date(datafecha)).toLocaleDateString('es-ES', { year: 'numeric' })

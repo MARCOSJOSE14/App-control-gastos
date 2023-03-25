@@ -1,6 +1,6 @@
 import Modales from '@/components/plantilla/Modales'
 import { contexto } from '@/contexts/Cuenta'
-import { espeDate, isoDate, pen } from '@/hooks/Fecha'
+import { espeDate3, isoDate, pen } from '@/hooks/Fecha'
 import { hooApi } from '@/hooks/hooApi'
 import { hooCat } from '@/hooks/hooCat'
 import { totalDate } from '@/hooks/hooDate'
@@ -118,7 +118,7 @@ const ModalTraDetalle = ({ closeModal, data }) => {
               datos.dataCat.map(({ Fecha, suma, dataTra }, index) => (
                 <div key={index} className='grid grid-cols-7'>
                     <div className='col-span-7 flex  mt-6 italic  font-semibold '>
-                      <h1>{espeDate(Fecha)}</h1>
+                      <h1>{espeDate3(Fecha)}</h1>
                     </div>
 
                     {dataTra.map(({ ID, Monto, Descripcion }) => (
