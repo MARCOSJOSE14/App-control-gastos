@@ -5,7 +5,10 @@ const pool = createPool({
   user: 'admin',
   password: 'Qubittos=2017',
   database: 'control',
-  port: 3306
+  port: 3306,
+  waitForConnections: true,
+  connectionLimit: 10,
+  queueLimit: 0
 })
 
 export { pool }
